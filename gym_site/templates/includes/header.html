@@ -1,0 +1,52 @@
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="48" fill="none" stroke="#ff6a00" stroke-width="4"/>
+                <path d="M30,35 L50,65 L70,35" fill="none" stroke="#ff6a00" stroke-width="5" stroke-linecap="round"/>
+                <path d="M30,50 L70,50" fill="none" stroke="#ff6a00" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+            <div class="logo-text">Power<span>Fitness</span></div>
+        </div>
+        
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
+                <li><a href="{% url 'programs' %}">Программы</a></li>
+                <li><a href="{% url 'trainers' %}">Тренеры</a></li>
+                <li><a href="{% url 'schedule' %}">Расписание</a></li>
+                <li><a href="{% url 'pricing' %}">Цены</a></li>  <!-- ← изменил с membership на pricing -->
+                <li><a href="{% url 'gallery' %}">Галерея</a></li>
+                <li><a href="{% url 'contact' %}">Контакты</a></li>
+            </ul>
+        </nav>
+        
+        <div class="nav-actions">
+            <a href="tel:+79991234567" class="phone-link">
+                <i class="fas fa-phone"></i> +7 (999) 123-45-67
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-small">Записаться</a>
+        </div>
+        <!-- После навигации добавь -->
+<button class="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="mobile-menu">
+    <ul>
+        <li><a href="{% url 'index' %}">Главная</a></li>
+        <li><a href="{% url 'about' %}">О нас</a></li>
+        <li><a href="{% url 'programs' %}">Программы</a></li>
+        <li><a href="{% url 'trainers' %}">Тренеры</a></li>
+        <li><a href="{% url 'schedule' %}">Расписание</a></li>
+        <li><a href="{% url 'pricing' %}">Цены</a></li>
+        <li><a href="{% url 'gallery' %}">Галерея</a></li>
+        <li><a href="{% url 'contact' %}">Контакты</a></li>
+    </ul>
+</div>
+    </div>
+    
+</header>

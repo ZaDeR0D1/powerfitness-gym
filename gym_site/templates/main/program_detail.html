@@ -1,0 +1,82 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block title %}{{ program.title }} - PowerFitness{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>{{ program.title }}</h1>
+            <p>{{ program.category.name }} • {{ program.get_difficulty_display }} • {{ program.duration }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="classes">
+    <div class="container">
+        <div class="program-detail">
+            <div class="program-image">
+                {% if program.image %}
+                <img src="{{ program.image.url }}" alt="{{ program.title }}">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="{{ program.title }}">
+                {% endif %}
+            </div>
+            
+            <div class="program-info">
+                <h2>О программе</h2>
+                <p>{{ program.description }}</p>
+                
+                <div class="program-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-user-tie"></i>
+                        <strong>Тренер:</strong> {{ program.coach.name }}
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-signal"></i>
+                        <strong>Уровень:</strong> {{ program.get_difficulty_display }}
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <strong>Продолжительность:</strong> {{ program.duration }}
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-tag"></i>
+                        <strong>Категория:</strong> {{ program.category.name }}
+                    </div>
+                </div>
+                
+                <div class="program-price-section">
+                    <div class="price">₽{{ program.price }}</div>
+                    <a href="#contact" class="btn">Записаться на программу</a>
+                </div>
+            </div>
+        </div>
+
+        {% if related_programs %}
+        <div class="related-programs">
+            <h3>Похожие программы</h3>
+            <div class="classes-grid">
+                {% for related in related_programs %}
+                <div class="class-card">
+                    <div class="card-img">
+                        {% if related.image %}
+                        <img src="{{ related.image.url }}" alt="{{ related.title }}">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="{{ related.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ related.title }}</h3>
+                        <p>{{ related.description|truncatewords:15 }}</p>
+                        <a href="{% url 'program_detail' related.id %}" class="btn btn-outline">Подробнее</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

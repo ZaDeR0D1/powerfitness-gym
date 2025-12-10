@@ -1,0 +1,74 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block title %}Цены и тарифы - PowerFitness{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Наши <span>тарифы</span></h1>
+            <p>Выберите подходящий тариф для достижения ваших фитнес-целей</p>
+        </div>
+    </div>
+</section>
+
+<section class="pricing">
+    <div class="container">
+        <div class="section-title">
+            <h2>Тарифные планы</h2>
+        </div>
+        <div class="pricing-cards">
+            <div class="price-card">
+                <div class="plan-name">Базовый</div>
+                <div class="price-amount">
+                    <span>₽</span>1990
+                    <span class="period">/мес</span>
+                </div>
+                <ul class="price-features">
+                    <li>Доступ к тренажерному залу</li>
+                    <li>Раздевалка и душ</li>
+                    <li>Бесплатный Wi-Fi</li>
+                    <li>4 гостевых визита в год</li>
+                    <li>Стандартное оборудование</li>
+                </ul>
+                <a href="{% url 'contact' %}" class="btn btn-outline">Выбрать</a>
+            </div>
+
+            <div class="price-card popular">
+                <div class="plan-name">Премиум</div>
+                <div class="price-amount">
+                    <span>₽</span>3990
+                    <span class="period">/мес</span>
+                </div>
+                <ul class="price-features">
+                    <li>Неограниченный доступ 24/7</li>
+                    <li>Все групповые занятия</li>
+                    <li>Персональная оценка фитнеса</li>
+                    <li>12 гостевых визитов в год</li>
+                    <li>Приоритетная запись</li>
+                    <li>Консультация по питанию</li>
+                </ul>
+                <a href="{% url 'contact' %}" class="btn">Выбрать</a>
+            </div>
+
+            <div class="price-card">
+                <div class="plan-name">Элитный</div>
+                <div class="price-amount">
+                    <span>₽</span>6990
+                    <span class="period">/мес</span>
+                </div>
+                <ul class="price-features">
+                    <li>Все преимущества Премиум</li>
+                    <li>3 персональные тренировки/мес</li>
+                    <li>Неограниченные гостевые визиты</li>
+                    <li>Доступ в зону восстановления</li>
+                    <li>Ежемесячный анализ прогресса</li>
+                    <li>Персональный шкафчик</li>
+                </ul>
+                <a href="{% url 'contact' %}" class="btn btn-outline">Выбрать</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

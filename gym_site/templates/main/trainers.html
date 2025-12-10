@@ -1,0 +1,79 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block title %}Наши тренеры - PowerFitness{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Наши <span>тренеры</span></h1>
+            <p>Профессиональная команда экспертов, которая поможет достичь ваших целей</p>
+        </div>
+    </div>
+</section>
+
+<section class="coaches">
+    <div class="container">
+        <div class="section-title">
+            <h2>Команда профессионалов</h2>
+        </div>
+        <div class="coach-container">
+            {% for coach in coaches %}
+            <div class="coach-card">
+                <div class="coach-img">
+                    {% if coach.photo %}
+                    <img src="{{ coach.photo.url }}" alt="{{ coach.name }}">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1480455624313-e29b44bbfde1?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=400" alt="{{ coach.name }}">
+                    {% endif %}
+                    <div class="coach-social">
+                        {% if coach.instagram %}<a href="{{ coach.instagram }}"><i class="fab fa-instagram"></i></a>{% endif %}
+                        {% if coach.facebook %}<a href="{{ coach.facebook }}"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                        {% if coach.linkedin %}<a href="{{ coach.linkedin }}"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                    </div>
+                </div>
+                <h3>{{ coach.name }}</h3>
+                <div class="coach-title">{{ coach.specialization }}</div>
+                <p>{{ coach.bio|default:"Опытный тренер с профессиональным подходом к тренировкам." }}</p>
+            </div>
+            {% empty %}
+            <div class="no-coaches">
+                <p>Информация о тренерах скоро появится!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Почему наши тренеры лучшие</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Образование</h3>
+                <p>Все тренеры имеют высшее спортивное образование и международные сертификаты</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3>Опыт</h3>
+                <p>Средний опыт работы наших тренеров - более 5 лет в индустрии фитнеса</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Индивидуальный подход</h3>
+                <p>Каждый тренер находит персональный подход к клиенту и его целям</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,33 @@
+<section class="classes" id="classes">
+    <div class="container">
+        <div class="section-title">
+            <h2>Популярные занятия</h2>
+        </div>
+        <div class="classes-grid">
+            {% for class in classes %}
+            <div class="class-card">
+                <div class="card-img">
+                    {% if class.image %}
+                    <img src="{{ class.image.url }}" alt="{{ class.title }}">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="{{ class.title }}">
+                    {% endif %}
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> {{ class.duration }}</span>
+                        <span><i class="fas fa-user"></i> {% if class.coach %}{{ class.coach.name }}{% else %}Тренер{% endif %}</span>
+                    </div>
+                    <h3>{{ class.title }}</h3>
+                    <p>{{ class.description }}</p>
+                    <a href="#contact" class="btn btn-outline">Записаться</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-classes">
+                <p>Занятия скоро появятся!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

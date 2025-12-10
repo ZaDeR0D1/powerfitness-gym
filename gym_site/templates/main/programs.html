@@ -1,0 +1,138 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block title %}Программы тренировок - PowerFitness{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Наши <span>программы</span></h1>
+            <p>Выберите программу, которая подходит именно вам</p>
+        </div>
+    </div>
+</section>
+
+<section class="classes">
+    <div class="container">
+        <div class="section-title">
+            <h2>Все программы тренировок</h2>
+        </div>
+        <div class="classes-grid">
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Силовые тренировки">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> 60 мин</span>
+                        <span><i class="fas fa-user"></i> Алексей</span>
+                    </div>
+                    <h3>Силовые тренировки</h3>
+                    <p>Программа для набора мышечной массы и развития силы</p>
+                    <div class="program-details">
+                        <span class="level">Для начинающих</span>
+                        <span class="duration">8 недель</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Кардио программа">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> 45 мин</span>
+                        <span><i class="fas fa-user"></i> Мария</span>
+                    </div>
+                    <h3>Кардио программа</h3>
+                    <p>Сжигание жира и улучшение выносливости</p>
+                    <div class="program-details">
+                        <span class="level">Для всех уровней</span>
+                        <span class="duration">6 недель</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Функциональный тренинг">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> 50 мин</span>
+                        <span><i class="fas fa-user"></i> Дмитрий</span>
+                    </div>
+                    <h3>Функциональный тренинг</h3>
+                    <p>Развитие силы для повседневных движений</p>
+                    <div class="program-details">
+                        <span class="level">Продвинутый</span>
+                        <span class="duration">10 недель</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Йога">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> 60 мин</span>
+                        <span><i class="fas fa-user"></i> Анна</span>
+                    </div>
+                    <h3>Йога и стретчинг</h3>
+                    <p>Гибкость, баланс и ментальное спокойствие</p>
+                    <div class="program-details">
+                        <span class="level">Для всех уровней</span>
+                        <span class="duration">12 недель</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1534367507877-0edd93bd013b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Кроссфит">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> 55 мин</span>
+                        <span><i class="fas fa-user"></i> Сергей</span>
+                    </div>
+                    <h3>Кроссфит</h3>
+                    <p>Высокоинтенсивные функциональные тренировки</p>
+                    <div class="program-details">
+                        <span class="level">Продвинутый</span>
+                        <span class="duration">8 недель</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+
+            <div class="class-card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&w=800" alt="Персональные тренировки">
+                </div>
+                <div class="card-content">
+                    <div class="class-meta">
+                        <span><i class="fas fa-clock"></i> Индивидуально</span>
+                        <span><i class="fas fa-user"></i> Персонально</span>
+                    </div>
+                    <h3>Персональные тренировки</h3>
+                    <p>Индивидуальный подход к вашим целям</p>
+                    <div class="program-details">
+                        <span class="level">Любой уровень</span>
+                        <span class="duration">По запросу</span>
+                    </div>
+                    <a href="#contact" class="btn btn-outline">Узнать больше</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

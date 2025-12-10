@@ -1,0 +1,32 @@
+<section class="coaches" id="coaches">
+    <div class="container">
+        <div class="section-title">
+            <h2>Наши тренеры</h2>
+        </div>
+        <div class="coach-container">
+            {% for coach in coaches %}
+            <div class="coach-card">
+                <div class="coach-img">
+                    {% if coach.photo %}
+                    <img src="{{ coach.photo.url }}" alt="{{ coach.name }}">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1480455624313-e29b44bbfde1?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=400" alt="{{ coach.name }}">
+                    {% endif %}
+                    <div class="coach-social">
+                        {% if coach.instagram %}<a href="{{ coach.instagram }}"><i class="fab fa-instagram"></i></a>{% endif %}
+                        {% if coach.facebook %}<a href="{{ coach.facebook }}"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                        {% if coach.linkedin %}<a href="{{ coach.linkedin }}"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                    </div>
+                </div>
+                <h3>{{ coach.name }}</h3>
+                <div class="coach-title">{{ coach.specialization }}</div>
+                <p>{{ coach.bio|default:"Опытный тренер с профессиональным подходом к тренировкам." }}</p>
+            </div>
+            {% empty %}
+            <div class="no-coaches">
+                <p>Информация о тренерах скоро появится!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

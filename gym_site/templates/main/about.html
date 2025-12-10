@@ -1,0 +1,85 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block title %}О нас - PowerFitness{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>О нашем <span>фитнес-центре</span></h1>
+            <p>Узнайте больше о нашей философии, миссии и команде профессионалов</p>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Наша история</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>PowerFitness - больше чем просто спортзал</h3>
+                <p>Мы создали пространство, где каждый может найти свой путь к здоровому образу жизни. Наша миссия - вдохновлять и поддерживать людей на пути к их фитнес-целям.</p>
+                
+                <h3>Наши ценности</h3>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Забота о здоровье</h4>
+                        <p>Мы ставим ваше здоровье и безопасность на первое место</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Комьюнити</h4>
+                        <p>Создаем поддерживающее сообщество единомышленников</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Развитие</h4>
+                        <p>Постоянно совершенствуем наши программы и оборудование</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="coaches">
+    <div class="container">
+        <div class="section-title">
+            <h2>Почему выбирают нас</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3>Современное оборудование</h3>
+                <p>Тренажеры последнего поколения от мировых брендов</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Профессиональные тренеры</h3>
+                <p>Сертифицированные специалисты с опытом работы от 5 лет</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Удобное расписание</h3>
+                <p>Работаем 24/7 для вашего комфорта</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
