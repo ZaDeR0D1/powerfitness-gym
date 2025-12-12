@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerFitness - Расписание занятий</title>
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --dark: #0f0c29;
+            --darker: #090617;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Шапка */
+        header {
+            background: rgba(15, 12, 41, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Основной контент */
+        .schedule-section {
+            padding: 8rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Фильтры дней */
+        .day-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .day-filter {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            color: var(--light);
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 140px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .day-filter:hover {
+            background: rgba(255, 107, 107, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .day-filter.active {
+            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+            color: var(--darker);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Расписание */
+        .schedule-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1rem;
+        }
+
+        .time-header {
+            font-weight: bold;
+            color: var(--secondary);
+            padding: 1rem;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .classes-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .time-slot {
+            display: contents;
+        }
+
+        .time {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--secondary);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .class-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-card:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--primary);
+        }
+
+        .class-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .class-card:hover::before {
+            opacity: 1;
+        }
+
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .class-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .class-trainer {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .class-details {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .class-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .class-icon {
+            font-size: 1.2rem;
+        }
+
+        .class-capacity {
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .class-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .status-available {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--secondary);
+        }
+
+        .status-full {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--primary);
+        }
+
+        /* Цвета типов занятий */
+        .class-card[data-type="yoga"] {
+            border-left: 4px solid #9c88ff;
+        }
+
+        .class-card[data-type="strength"] {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .class-card[data-type="cardio"] {
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .class-card[data-type="dance"] {
+            border-left: 4px solid #ffd166;
+        }
+
+        .class-card[data-type="boxing"] {
+            border-left: 4px solid #ef476f;
+        }
+
+        .class-card[data-type="pilates"] {
+            border-left: 4px solid #118ab2;
+        }
+
+        /* Панель информации */
+        .info-panel {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .info-text h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .book-btn {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), #ff8e8e);
+            color: var(--darker);
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Легенда */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* Подвал */
+        footer {
+            background: rgba(15, 12, 41, 0.95);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .contact-info {
+            color: var(--gray);
+        }
+
+        .contact-info p {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .time-slots {
+                grid-template-columns: 150px 1fr;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .time-slots {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-header {
+                display: none;
+            }
+            
+            .time {
+                grid-column: 1;
+                justify-content: flex-start;
+                border-left: none;
+                border-bottom: 4px solid var(--secondary);
+            }
+            
+            .class-card {
+                grid-column: 1;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .day-filters {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 1rem;
+            }
+            
+            .day-filter {
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .class-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .class-details {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .schedule-section {
+                padding: 7rem 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <span class="logo-icon">💪</span>
+                PowerFitness
+            </a>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/about">О нас</a>
+                <a href="/gallery">Галерея</a>
+                <a href="/schedule" class="active">Расписание</a>
+                <a href="/contact">Контакты</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="schedule-section">
+        <div class="section-header">
+            <h1 class="section-title">Расписание занятий</h1>
+            <p class="section-subtitle">Выберите день недели, чтобы увидеть все доступные тренировки</p>
+        </div>
+
+        <!-- Фильтры дней -->
+        <div class="day-filters" id="dayFilters">
+            <button class="day-filter active" data-day="monday">Понедельник</button>
+            <button class="day-filter" data-day="tuesday">Вторник</button>
+            <button class="day-filter" data-day="wednesday">Среда</button>
+            <button class="day-filter" data-day="thursday">Четверг</button>
+            <button class="day-filter" data-day="friday">Пятница</button>
+            <button class="day-filter" data-day="saturday">Суббота</button>
+            <button class="day-filter" data-day="sunday">Воскресенье</button>
+        </div>
+
+        <!-- Расписание -->
+        <div class="schedule-container">
+            <!-- Понедельник (по умолчанию) -->
+            <div class="day-schedule active" id="monday">
+                <div class="time-slots">
+                    <div class="time-header">Время</div>
+                    <div class="time-header">Занятия</div>
+                    
+                    <div class="time-slot">
+                        <div class="time">07:00 - 08:00</div>
+                        <div class="class-card" data-type="yoga">
+                            <div class="class-header">
+                                <h3 class="class-title">Утренняя Йога</h3>
+                                <span class="class-trainer">Тренер: Анна</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🧘‍♀️</span>
+                                    Йога
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">15/20 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 1
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">09:00 - 10:30</div>
+                        <div class="class-card" data-type="strength">
+                            <div class="class-header">
+                                <h3 class="class-title">Силовая тренировка</h3>
+                                <span class="class-trainer">Тренер: Алексей</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🏋️‍♂️</span>
+                                    Силовая
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">8/12 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 2
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">12:00 - 13:00</div>
+                        <div class="class-card" data-type="pilates">
+                            <div class="class-header">
+                                <h3 class="class-title">Пилатес</h3>
+                                <span class="class-trainer">Тренер: Мария</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🧘‍♂️</span>
+                                    Пилатес
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">18/20 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 3
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">17:00 - 18:30</div>
+                        <div class="class-card" data-type="boxing">
+                            <div class="class-header">
+                                <h3 class="class-title">Бокс</h3>
+                                <span class="class-trainer">Тренер: Дмитрий</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🥊</span>
+                                    Бокс
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">10/10 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 4
+                                </span>
+                            </div>
+                            <span class="class-status status-full">Заполнено</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">19:00 - 20:30</div>
+                        <div class="class-card" data-type="dance">
+                            <div class="class-header">
+                                <h3 class="class-title">Zumba Fitness</h3>
+                                <span class="class-trainer">Тренер: Елена</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">💃</span>
+                                    Танцы
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">12/15 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 1
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вторник -->
+            <div class="day-schedule" id="tuesday">
+                <div class="time-slots">
+                    <div class="time-header">Время</div>
+                    <div class="time-header">Занятия</div>
+                    
+                    <div class="time-slot">
+                        <div class="time">08:00 - 09:00</div>
+                        <div class="class-card" data-type="cardio">
+                            <div class="class-header">
+                                <h3 class="class-title">Кардио утро</h3>
+                                <span class="class-trainer">Тренер: Сергей</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🏃‍♀️</span>
+                                    Кардио
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">14/20 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 2
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">10:00 - 11:30</div>
+                        <div class="class-card" data-type="strength">
+                            <div class="class-header">
+                                <h3 class="class-title">Функциональный тренинг</h3>
+                                <span class="class-trainer">Тренер: Алексей</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🏋️‍♀️</span>
+                                    Силовая
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">6/10 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 3
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">16:00 - 17:30</div>
+                        <div class="class-card" data-type="yoga">
+                            <div class="class-header">
+                                <h3 class="class-title">Йога для начинающих</h3>
+                                <span class="class-trainer">Тренер: Анна</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">🧘‍♀️</span>
+                                    Йога
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">20/25 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 1
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time">18:00 - 19:30</div>
+                        <div class="class-card" data-type="dance">
+                            <div class="class-header">
+                                <h3 class="class-title">Танцевальный фитнес</h3>
+                                <span class="class-trainer">Тренер: Елена</span>
+                            </div>
+                            <div class="class-details">
+                                <span class="class-detail">
+                                    <span class="class-icon">💃</span>
+                                    Танцы
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">👥</span>
+                                    <span class="class-capacity">15/20 мест</span>
+                                </span>
+                                <span class="class-detail">
+                                    <span class="class-icon">📍</span>
+                                    Зал 2
+                                </span>
+                            </div>
+                            <span class="class-status status-available">Доступно</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Добавьте другие дни по аналогии -->
+
+        </div>
+
+        <!-- Панель информации -->
+        <div class="info-panel">
+            <div class="info-text">
+                <h3>Хотите записаться на занятие?</h3>
+                <p>Выберите подходящее время и нажмите кнопку "Записаться" для бронирования места. 
+                Вы также можете связаться с нами по телефону для получения дополнительной информации.</p>
+            </div>
+            <button class="book-btn" onclick="bookClass()">Записаться онлайн</button>
+        </div>
+
+        <!-- Легенда -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9c88ff;"></div>
+                <span>Йога</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff6b6b;"></div>
+                <span>Силовая</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ecdc4;"></div>
+                <span>Кардио</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffd166;"></div>
+                <span>Танцы</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ef476f;"></div>
+                <span>Бокс</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #118ab2;"></div>
+                <span>Пилатес</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>PowerFitness</h3>
+                <p>Ваш путь к здоровью и красоте начинается здесь. Профессиональные тренеры и современное оборудование.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Навигация</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/about">О нас</a></li>
+                    <li><a href="/gallery">Галерея</a></li>
+                    <li><a href="/schedule">Расписание</a></li>
+                    <li><a href="/contact">Контакты</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <div class="contact-info">
+                    <p>📍 г. Москва, ул. Фитнесная, 15</p>
+                    <p>📞 +7 (495) 123-45-67</p>
+                    <p>✉️ info@powerfitness.ru</p>
+                    <p>🕒 Пн-Пт: 7:00 - 23:00</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            © 2025 PowerFitness Gym. Все права защищены.
+        </div>
+    </footer>
+
+    <script>
+        // Переключение между днями недели
+        document.querySelectorAll('.day-filter').forEach(button => {
+            button.addEventListener('click', () => {
+                // Удаляем активный класс у всех кнопок
+                document.querySelectorAll('.day-filter').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Добавляем активный класс текущей кнопке
+                button.classList.add('active');
+                
+                // Скрываем все расписания
+                document.querySelectorAll('.day-schedule').forEach(schedule => {
+                    schedule.classList.remove('active');
+                });
+                
+                // Показываем выбранное расписание
+                const day = button.getAttribute('data-day');
+                document.getElementById(day).classList.add('active');
+            });
+        });
+
+        // Запись на занятие
+        function bookClass() {
+            const selectedDay = document.querySelector('.day-filter.active').textContent;
+            alert(`Вы выбрали запись на занятие в ${selectedDay}. Наш менеджер свяжется с вами для подтверждения.`);
+        }
+
+        // Подсветка доступных мест
+        document.querySelectorAll('.class-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (this.querySelector('.status-available')) {
+                    const className = this.querySelector('.class-title').textContent;
+                    const classTime = this.closest('.time-slot').querySelector('.time').textContent;
+                    const trainer = this.querySelector('.class-trainer').textContent.split(': ')[1];
+                    
+                    if (confirm(`Записаться на занятие:\n${className}\n${classTime}\nТренер: ${trainer}\n\nПодтвердить запись?`)) {
+                        alert('Вы успешно записаны на занятие! Мы отправили подтверждение на вашу почту.');
+                    }
+                } else {
+                    alert('К сожалению, это занятие полностью заполнено. Вы можете выбрать другое время или добавиться в лист ожидания.');
+                }
+            });
+        });
+
+        // Плавное появление карточек
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.class-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+
+        // Фильтрация по типу занятия
+        function filterByType(type) {
+            const cards = document.querySelectorAll('.class-card');
+            cards.forEach(card => {
+                if (type === 'all' || card.getAttribute('data-type') === type) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Текущая дата и день недели
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = new Date().getDay();
+        const todayIndex = today === 0 ? 6 : today - 1; // Начинаем с понедельника
+        
+        // Автоматически выбираем текущий день
+        setTimeout(() => {
+            const todayButton = document.querySelector(`.day-filter[data-day="${days[todayIndex]}"]`);
+            if (todayButton) {
+                todayButton.click();
+            }
+        }, 500);
+    </script>
+</body>
+</html>

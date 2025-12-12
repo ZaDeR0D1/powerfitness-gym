@@ -52,5 +52,24 @@
             document.querySelector('.preloader').style.display = 'none';
         });
     </script>
+    <!-- В шапке сайта -->
+<form action="{% url 'search' %}" method="GET" class="search-form-global">
+    <input type="text" name="q" placeholder="Поиск тренеров и программ..." 
+           value="{{ request.GET.q }}">
+    <button type="submit"><i class="fas fa-search"></i></button>
+</form>
+
+<!-- Или в навигации -->
+<li>
+    <form action="{% url 'search' %}" method="GET" class="navbar-search">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" 
+                   placeholder="Поиск..." aria-label="Search">
+            <button class="btn btn-outline-light" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+</li>
 </body>
 </html>
